@@ -1,6 +1,7 @@
 package com.example.watchflow.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,7 @@ public class Movie {
     private String productionYear;
     private String director;
 
+    @JsonIgnore
     @ManyToMany(
             cascade = {
                     CascadeType.PERSIST,
@@ -48,6 +50,7 @@ public class Movie {
     )
     private Set<User> watchers = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "movie",
             cascade = CascadeType.ALL,

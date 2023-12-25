@@ -1,5 +1,6 @@
 package com.example.watchflow.controller;
 
+import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class MovieController {
     private final MovieService service;
 
     @GetMapping("/movies")
-    public ResponseEntity<List<Movie>> getMovies(){
-        List<Movie> movies = service.getMovies();
+    public ResponseEntity<List<MovieDTO>> getMovies(){
+        List<MovieDTO> movies = service.getMovies();
         if (movies.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         else
@@ -29,7 +30,7 @@ public class MovieController {
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie){
         Movie newMovie = service.addMovie(movie);
         if (newMovie != null)
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(newMovie);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newMovie);
         else
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }

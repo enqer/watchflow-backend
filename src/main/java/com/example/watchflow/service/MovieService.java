@@ -1,6 +1,8 @@
 package com.example.watchflow.service;
 
 
+import com.example.watchflow.dto.MovieDTO;
+import com.example.watchflow.dto.mapper.MovieDTOMapper;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.repository.MovieRepository;
 import lombok.Builder;
@@ -14,9 +16,13 @@ import java.util.List;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final MovieDTOMapper movieDTOMapper;
 
-    public List<Movie> getMovies() {
-        return movieRepository.findAll();
+    public List<MovieDTO> getMovies() {
+        return movieRepository.findAll()
+                .stream()
+                .map(movieDTOMapper)
+                .toList();
     }
 
     public Movie addMovie(Movie movie) {
