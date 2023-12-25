@@ -1,6 +1,7 @@
 package com.example.watchflow.controller;
 
 import com.example.watchflow.dto.MovieDTO;
+import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,15 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         else
             return ResponseEntity.status(HttpStatus.OK).body(movies);
+    }
+
+    @GetMapping("/movies/{id}")
+    public ResponseEntity<SingleMovieDTO> getMovieById(@PathVariable Long id){
+        SingleMovieDTO m = service.getMovieById(id);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @PostMapping("/movie")
