@@ -48,6 +48,14 @@ public class Movie {
     )
     private Set<User> watchers = new HashSet<>();
 
+    @OneToMany(
+            mappedBy = "movie",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Rating> ratings = new ArrayList<>();
+
+
 
 
 

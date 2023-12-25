@@ -31,7 +31,6 @@ public class User implements UserDetails {
             sequenceName = "user_sequence",
             allocationSize = 1
     )
-    @Column(name="id_user")
     private Long id;
     private String login;
     private String email;
@@ -43,6 +42,13 @@ public class User implements UserDetails {
             mappedBy = "watchers"
     )
     private Set<Movie> moviesWatched = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Rating> ratings = new ArrayList<>();
 
 
     @Override
