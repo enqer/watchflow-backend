@@ -30,8 +30,6 @@ public class AuthenticationService {
 
 
     public AuthenticationRespone register(RegisterRequest request) throws ParseException {
-
-
         var user = User.builder()
                 .login(request.getLogin())
                 .email(request.getEmail())
@@ -39,6 +37,7 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         // TODO validate
+
 
 
         var jwtToken = jwtService.generateToken(user);
