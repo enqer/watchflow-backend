@@ -12,10 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -39,10 +36,14 @@ public class User implements UserDetails {
     private String login;
     private String email;
     private String password;
-
-
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @ManyToMany(
+            mappedBy = "watchers"
+    )
+    private Set<Movie> moviesWatched = new HashSet<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
