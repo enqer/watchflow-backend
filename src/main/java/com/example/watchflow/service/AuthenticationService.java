@@ -1,9 +1,13 @@
-package com.example.watchflow.security;
+package com.example.watchflow.service;
 
 
 import com.example.watchflow.model.Role;
 import com.example.watchflow.model.User;
 import com.example.watchflow.repository.UserRepository;
+import com.example.watchflow.security.AuthenticationRequest;
+import com.example.watchflow.security.AuthenticationRespone;
+import com.example.watchflow.security.JwtService;
+import com.example.watchflow.security.RegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,9 +40,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        // TODO validate
-
-
+        userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationRespone.builder()
