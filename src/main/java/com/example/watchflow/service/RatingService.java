@@ -1,6 +1,7 @@
 package com.example.watchflow.service;
 
 
+import com.example.watchflow.dto.RateDto;
 import com.example.watchflow.dto.RatingDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.model.Rating;
@@ -11,6 +12,9 @@ import com.example.watchflow.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -41,5 +45,14 @@ public class RatingService {
 
     public RatingDTO getRatingOfMovieByUser(Long movieId, Long userId) {
         return ratingRepository.findByMovieIdAndUserId(movieId, userId);
+    }
+
+    public void updateRating(Long id, RateDto rate) {
+        Optional<Rating> r = ratingRepository.findById(id);
+        if (r.isPresent()){
+            Rating rating = r.get();
+            rating.setRate(rate.rate());
+            ratingRepository.save(rating);
+        }
     }
 }
