@@ -38,4 +38,8 @@ public class RatingService {
                     rating.userId()
         );
     }
+
+    public RatingDTO getRatingOfMovieByUser(Long movieId, Long userId) {
+        return ratingRepository.findByMovieIdAndUserId(movieId, userId);
+    }
 }

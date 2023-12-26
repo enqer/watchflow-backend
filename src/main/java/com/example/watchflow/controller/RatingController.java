@@ -7,10 +7,7 @@ import com.example.watchflow.service.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,12 +16,21 @@ public class RatingController {
 
     private final RatingService service;
 
+    @GetMapping("/ratings/movies/{movieId}/users/{userId}")
+    public ResponseEntity<RatingDTO> getRatingOfMovieByUser(@PathVariable Long movieId, @PathVariable Long userId){
+        RatingDTO ratingDTO = service.getRatingOfMovieByUser(movieId, userId);
+        if (ratingDTO != null)
+            return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PostMapping("/rating")
     public ResponseEntity<RatingDTO> addRating(@RequestBody RatingDTO rating){
         RatingDTO rate = service.addRating(rating);
         if (rate != null)
             return ResponseEntity.status(HttpStatus.CREATED).body(rate);
         else
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
 }
