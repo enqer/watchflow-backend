@@ -48,7 +48,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> watchers = new HashSet<>();
+    private Set<User> watchers;
 
     @JsonIgnore
     @OneToMany(
@@ -57,6 +57,11 @@ public class Movie {
             orphanRemoval = true
     )
     private List<Rating> ratings = new ArrayList<>();
+
+    public void addWatchers(User user){
+        if (watchers == null) watchers = new HashSet<>();
+        watchers.add(user);
+    }
 
 
 

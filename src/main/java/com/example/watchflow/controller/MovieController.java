@@ -44,4 +44,10 @@ public class MovieController {
         else
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }
+
+    @PostMapping("/movie/{movieId}/watcher/{userId}")
+    public ResponseEntity<?> addWatcher(@PathVariable Long movieId, @PathVariable Long userId){
+        service.addWatcher(movieId, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }

@@ -6,13 +6,16 @@ import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.dto.mapper.MovieDTOMapper;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.model.Rating;
+import com.example.watchflow.model.User;
 import com.example.watchflow.repository.MovieRepository;
 import com.example.watchflow.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +61,17 @@ public class MovieService {
                         .map(Rating::getRate)
                         .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size())
                 );
+
+    }
+
+    public void addWatcher(Long movieId, Long userId) {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        Optional<User> user = userRepository.findById(userId);
+        if (movie.isPresent() && user.isPresent()){
+            Movie m = movie.get();
+            m.addWatchers(user.get());
+            movieRepository.save(m);
+        }
 
     }
 }
