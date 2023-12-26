@@ -1,5 +1,6 @@
 package com.example.watchflow.repository;
 
+import com.example.watchflow.model.Movie;
 import com.example.watchflow.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

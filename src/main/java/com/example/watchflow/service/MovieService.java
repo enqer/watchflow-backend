@@ -75,4 +75,14 @@ public class MovieService {
         }
 
     }
+
+    public boolean isMovieWatcher(Long movieId, Long userId) {
+        List<Object[]> movies = movieRepository.findMovieWatchersByMovieId(movieId);
+        for (Object[] m : movies){
+            if (m[0] == userId)
+                return true;
+        }
+        return false;
+
+    }
 }

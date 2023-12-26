@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,6 +37,15 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @GetMapping("/movies/{movieId}/watchers/{userId}")
+    public ResponseEntity<?> isMovieWatcher(@PathVariable Long movieId, @PathVariable Long userId){
+        boolean isWatcher = service.isMovieWatcher(movieId, userId);
+        if (isWatcher)
+            return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("isWatcher", true));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PostMapping("/movie")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie){
         Movie newMovie = service.addMovie(movie);
@@ -45,7 +55,7 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }
 
-    @PostMapping("/movie/{movieId}/watcher/{userId}")
+    @PostMapping("/movies/{movieId}/watchers/{userId}")
     public ResponseEntity<?> addWatcher(@PathVariable Long movieId, @PathVariable Long userId){
         service.addWatcher(movieId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
