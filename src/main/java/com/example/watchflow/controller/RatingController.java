@@ -40,4 +40,10 @@ public class RatingController {
         service.updateRating(id, rate);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping("/ratings/{id}")
+    public ResponseEntity<?> deleteRating(@PathVariable Long id){
+        service.deleteRating(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

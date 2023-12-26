@@ -55,4 +55,9 @@ public class RatingService {
             ratingRepository.save(rating);
         }
     }
+
+    public void deleteRating(Long id) {
+        Rating rating = ratingRepository.findById(id).get();
+        ratingRepository.delete(rating);
+    }
 }
