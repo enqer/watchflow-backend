@@ -10,6 +10,7 @@ import com.example.watchflow.model.User;
 import com.example.watchflow.repository.MovieRepository;
 import com.example.watchflow.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class MovieService {
+
 
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
@@ -84,5 +87,9 @@ public class MovieService {
         }
         return false;
 
+    }
+
+    public void deleteWatcher(Long movieId, Long userId) {
+        movieRepository.deleteMovieWatcherByUserId(movieId, userId);
     }
 }

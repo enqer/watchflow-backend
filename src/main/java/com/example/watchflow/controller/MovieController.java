@@ -60,4 +60,10 @@ public class MovieController {
         service.addWatcher(movieId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/movies/{movieId}/watchers/{userId}")
+    public ResponseEntity<?> deleteWatcher(@PathVariable Long movieId, @PathVariable Long userId){
+        service.deleteWatcher(movieId, userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
