@@ -8,6 +8,7 @@ public record SingleMovieDTO(
         String genre,
         String productionYear,
         String director,
-        Double rating
+        Double rating,
+        Integer numOfRatings
 ) {
 }

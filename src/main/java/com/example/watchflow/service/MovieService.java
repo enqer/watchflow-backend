@@ -59,7 +59,8 @@ public class MovieService {
                 movie.getRatings()
                         .stream()
                         .map(Rating::getRate)
-                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size())
+                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),
+                movie.getRatings().size()
                 );
 
     }
