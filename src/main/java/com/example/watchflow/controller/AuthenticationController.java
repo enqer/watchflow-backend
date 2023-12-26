@@ -3,7 +3,7 @@ package com.example.watchflow.controller;
 
 import com.example.watchflow.security.AuthenticationRequest;
 import com.example.watchflow.security.AuthenticationRespone;
-import com.example.watchflow.security.AuthenticationService;
+import com.example.watchflow.service.AuthenticationService;
 import com.example.watchflow.security.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
