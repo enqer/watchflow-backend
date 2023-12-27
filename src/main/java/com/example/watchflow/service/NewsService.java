@@ -1,7 +1,8 @@
 package com.example.watchflow.service;
 
 
-import com.example.watchflow.dto.NewsDto;
+import com.example.watchflow.dto.NewsRequestDto;
+import com.example.watchflow.dto.NewsResponseDto;
 import com.example.watchflow.model.Author;
 import com.example.watchflow.model.News;
 import com.example.watchflow.repository.AuthorRepository;
@@ -19,7 +20,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final AuthorRepository authorRepository;
 
-    public News addNews(NewsDto news) {
+    public NewsResponseDto addNews(NewsRequestDto news) {
         Optional<Author> author = authorRepository.findById(news.authorId());
         if (author.isPresent()){
             News newNews =
@@ -31,7 +32,14 @@ public class NewsService {
                             .author(author.get())
                             .build();
             newsRepository.save(newNews);
-            return newNews;
+            return new NewsResponseDto(
+                    newNews.getId(),
+                    newNews.getTitle(),
+                    newNews.getPublishedAt().toString(),
+                    newNews.getContent(),
+                    newNews.getImage(),
+                    newNews.getAuthor().getId()
+            );
         }
         return null;
     }

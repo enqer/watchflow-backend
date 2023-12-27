@@ -1,6 +1,7 @@
 package com.example.watchflow.controller;
 
-import com.example.watchflow.dto.NewsDto;
+import com.example.watchflow.dto.NewsRequestDto;
+import com.example.watchflow.dto.NewsResponseDto;
 import com.example.watchflow.model.News;
 import com.example.watchflow.service.NewsService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class NewsController {
     private final NewsService service;
 
     @PostMapping("/news")
-    public ResponseEntity<News> addNews(@RequestBody NewsDto news){
-        News newNews = service.addNews(news);
+    public ResponseEntity<NewsResponseDto> addNews(@RequestBody NewsRequestDto news){
+        NewsResponseDto newNews = service.addNews(news);
         if (newNews != null)
             return ResponseEntity.status(HttpStatus.CREATED).body(newNews);
         else

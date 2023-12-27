@@ -1,10 +1,6 @@
 package com.example.watchflow.dto;
 
-import com.example.watchflow.model.Author;
-
-import java.time.LocalDate;
-
-public record NewsDto(
+public record NewsRequestDto(
         String title,
         String content,
         String image,
