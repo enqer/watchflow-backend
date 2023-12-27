@@ -15,7 +15,8 @@ public class MovieCommentDtoMapper implements Function<MovieComment, MovieCommen
                 movieComment.getContent(),
                 movieComment.getPublishedAt().toString(),
                 movieComment.getMovie().getId(),
-                movieComment.getUser().getId()
+                movieComment.getUser().getId(),
+                movieComment.getUser().getLogin()
         );
     }
 }

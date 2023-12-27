@@ -5,7 +5,8 @@ public record MovieCommentResponseDto (
         String content,
         String publishedAd,
         Long movieId,
-        Long userId
+        Long userId,
+        String userLogin
 ){
 
 }

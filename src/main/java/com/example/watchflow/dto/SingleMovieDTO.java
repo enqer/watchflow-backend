@@ -1,5 +1,7 @@
 package com.example.watchflow.dto;
 
+import java.util.List;
+
 public record SingleMovieDTO(
         Long id,
         String title,
@@ -9,6 +11,7 @@ public record SingleMovieDTO(
         String productionYear,
         String director,
         Double rating,
-        Integer numOfRatings
+        Integer numOfRatings,
+        List<MovieCommentResponseDto> comments
 ) {
 }

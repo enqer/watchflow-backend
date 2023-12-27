@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +41,14 @@ public class MovieCommentService {
             return movieCommentDtoMapper.apply(movieComment);
         }
         return null;
+    }
+
+    public List<MovieCommentResponseDto> getCommentsByMovieId(Long movieId){
+        return movieCommentRepository
+                .findAll()
+                .stream()
+                .filter(movieComment -> movieComment.getMovie().getId().equals(movieId))
+                .map(movieCommentDtoMapper)
+                .toList();
     }
 }

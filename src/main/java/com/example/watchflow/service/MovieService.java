@@ -26,6 +26,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
     private final MovieDTOMapper movieDTOMapper;
+    private final MovieCommentService movieCommentService;
 
     public List<MovieDTO> getMovies() {
         return movieRepository.findAll()
@@ -62,7 +63,8 @@ public class MovieService {
                         .stream()
                         .map(Rating::getRate)
                         .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),
-                movie.getRatings().size()
+                movie.getRatings().size(),
+                movieCommentService.getCommentsByMovieId(movie.getId())
                 );
 
     }
