@@ -51,4 +51,9 @@ public class MovieCommentService {
                 .map(movieCommentDtoMapper)
                 .toList();
     }
+
+    public void deleteMovieComment(Long id) {
+        Optional<MovieComment> movieComment = movieCommentRepository.findById(id);
+        movieComment.ifPresent(movieCommentRepository::delete);
+    }
 }
