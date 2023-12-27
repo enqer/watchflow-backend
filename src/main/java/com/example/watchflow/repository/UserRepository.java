@@ -12,9 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByLogin(String login);
 
 
-    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT 1 FROM User WHERE login = ?1)")
+    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT 1 FROM users WHERE login = ?1)")
     boolean isUserExists(String login);
 
-    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT 1 FROM User WHERE email = ?1)")
+    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT 1 FROM users WHERE email = ?1)")
     boolean isUserExistsByEmail(String email);
 }

@@ -3,7 +3,9 @@ package com.example.watchflow.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,6 +27,14 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST)
+                        .authenticated()
+                        .requestMatchers(HttpMethod.DELETE)
+                        .authenticated()
+                        .requestMatchers(HttpMethod.PATCH)
+                        .authenticated()
+                        .requestMatchers(HttpMethod.PUT)
+                        .authenticated()
                         .requestMatchers(
                                 "/api/**",
                                 "/swagger-ui/**",
@@ -35,7 +45,7 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .authenticated()
                 )
-//                .cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
