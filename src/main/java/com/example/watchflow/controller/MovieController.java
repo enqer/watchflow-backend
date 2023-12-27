@@ -5,7 +5,6 @@ import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +37,15 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
- 
+    @GetMapping("/movies/search/{title}")
+    public ResponseEntity<List<MovieDTO>> getMoviesByName(@PathVariable String title){
+        List<MovieDTO> m = service.getMoviesByTitle(title);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
     @GetMapping("/movies/genres/{genre}")
     public ResponseEntity<List<MovieDTO>> getMoviesByGenre(@PathVariable String genre){
         List<MovieDTO> movies = service.getMoviesByGenre(genre);
