@@ -29,6 +29,15 @@ public class NewsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @GetMapping("/news/{id}")
+    public ResponseEntity<News> getNews(@PathVariable Long id){
+        News news = service.getNewsById(id);
+        if (news != null)
+            return ResponseEntity.status(HttpStatus.OK).body(news);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PostMapping("/news")
     public ResponseEntity<NewsResponseDto> addNews(@RequestBody NewsRequestDto news){
         NewsResponseDto newNews = service.addNews(news);

@@ -54,4 +54,8 @@ public class NewsService {
                 .map(newsDtoMapper)
                 .toList();
     }
+
+    public News getNewsById(Long id) {
+        return newsRepository.findById(id).get();
+    }
 }
