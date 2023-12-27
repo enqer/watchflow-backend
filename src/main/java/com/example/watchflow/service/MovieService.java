@@ -14,7 +14,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,4 +91,21 @@ public class MovieService {
     public void deleteWatcher(Long movieId, Long userId) {
         movieRepository.deleteMovieWatcherByUserId(movieId, userId);
     }
+
+    public List<MovieDTO> getMoviesByGenre(String genre) {
+        return movieRepository
+                .findAll()
+                .stream()
+                .filter(m -> m.getGenre().equalsIgnoreCase(genre))
+                .map(movieDTOMapper)
+                .toList();
+    }
+
+//    public List<MovieDTO> getMoviesByName(String title) {
+//        return movieRepository
+//                .findAll()
+//                .stream()
+//                .filter(movie -> isSimilarName(movie.getTitle(), title))
+//    }
+
 }
