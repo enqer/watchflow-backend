@@ -1,5 +1,6 @@
 package com.example.watchflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class Author {
     private String firstName;
     private String lastName;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "author"
     )

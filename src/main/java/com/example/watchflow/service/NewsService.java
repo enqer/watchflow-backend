@@ -3,6 +3,7 @@ package com.example.watchflow.service;
 
 import com.example.watchflow.dto.NewsRequestDto;
 import com.example.watchflow.dto.NewsResponseDto;
+import com.example.watchflow.dto.mapper.NewsDtoMapper;
 import com.example.watchflow.model.Author;
 import com.example.watchflow.model.News;
 import com.example.watchflow.repository.AuthorRepository;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,7 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
     private final AuthorRepository authorRepository;
+    private final NewsDtoMapper newsDtoMapper;
 
     public NewsResponseDto addNews(NewsRequestDto news) {
         Optional<Author> author = authorRepository.findById(news.authorId());
@@ -42,5 +45,13 @@ public class NewsService {
             );
         }
         return null;
+    }
+
+    public List<NewsResponseDto> getNews() {
+        return newsRepository
+                .findAll()
+                .stream()
+                .map(newsDtoMapper)
+                .toList();
     }
 }
