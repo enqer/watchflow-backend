@@ -1,33 +1,28 @@
 package com.example.watchflow.dto.mapper;
 
-
-import com.example.watchflow.dto.MovieDTO;
+import com.example.watchflow.dto.MovieRankDto;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.model.Rating;
-import com.example.watchflow.repository.MovieRepository;
 import com.example.watchflow.utils.Number;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
 @Service
-@RequiredArgsConstructor
-public class MovieDTOMapper implements Function<Movie, MovieDTO> {
-
-
+public class MovieRankDtoMapper implements Function<Movie, MovieRankDto> {
     @Override
-    public MovieDTO apply(Movie movie) {
-        return new MovieDTO(
+    public MovieRankDto apply(Movie movie) {
+        return new MovieRankDto(
                 movie.getId(),
                 movie.getTitle(),
-                movie.getImage(),
                 movie.getGenre(),
+                movie.getDirector(),
+                movie.getImage(),
                 Number.round(movie.getRatings()
                         .stream()
                         .map(Rating::getRate)
-                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),1)
-
+                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),1),
+                movie.getRatings().size()
         );
     }
 }
