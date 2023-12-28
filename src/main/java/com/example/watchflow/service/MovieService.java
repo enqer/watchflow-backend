@@ -18,10 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -132,5 +129,15 @@ public class MovieService {
                 .sorted((m1, m2) -> m2.rating().compareTo(m1.rating()))
                 .limit(first)
                 .toList();
+    }
+
+    public List<MovieDTO> getLastestMovies(int last) {
+        List<MovieDTO> movies = new ArrayList<>(movieRepository
+                .findAll()
+                .stream()
+                .map(movieDTOMapper)
+                .toList());
+        Collections.reverse(movies);
+        return movies.stream().limit(last).toList();
     }
 }

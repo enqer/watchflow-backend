@@ -47,6 +47,15 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @GetMapping("/movies/lastest")
+    public ResponseEntity<List<MovieDTO>> getLastestMovies(@RequestParam(required = false, defaultValue = "3") int last){
+        List<MovieDTO> m = service.getLastestMovies(last);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
     @GetMapping("/movies/search/{title}")
     public ResponseEntity<List<MovieDTO>> getMoviesByName(@PathVariable String title){
         List<MovieDTO> m = service.getMoviesByTitle(title);
