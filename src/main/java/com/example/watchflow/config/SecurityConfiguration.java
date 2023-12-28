@@ -27,23 +27,27 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                       .requestMatchers(
+//                                "/api/**",
+                               "/swagger-ui/**",
+                               "/swagger-ui.html",
+                               "/swagger-resources/**",
+                               "/v3/api-docs/**")
+                                .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**")
+                                .permitAll()
+                        .requestMatchers(HttpMethod.GET)
+                                .permitAll()
                         .requestMatchers(HttpMethod.POST)
-                        .authenticated()
+                                .permitAll()
                         .requestMatchers(HttpMethod.DELETE)
-                        .authenticated()
+                                .permitAll()
                         .requestMatchers(HttpMethod.PATCH)
-                        .authenticated()
+                                .permitAll()
                         .requestMatchers(HttpMethod.PUT)
-                        .authenticated()
-                        .requestMatchers(
-                                "/api/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**")
-                        .permitAll()
+                                .authenticated()
                         .anyRequest()
-                        .authenticated()
+                                .authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess
