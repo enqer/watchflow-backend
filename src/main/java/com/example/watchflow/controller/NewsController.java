@@ -1,5 +1,6 @@
 package com.example.watchflow.controller;
 
+import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.dto.NewsRequestDto;
 import com.example.watchflow.dto.NewsResponseDto;
 import com.example.watchflow.model.News;
@@ -36,6 +37,15 @@ public class NewsController {
             return ResponseEntity.status(HttpStatus.OK).body(news);
         else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/news/lastest")
+    public ResponseEntity<List<NewsResponseDto>> getLastestNews(@RequestParam(required = false, defaultValue = "3") int last){
+        List<NewsResponseDto> m = service.getLastestNews(last);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @PostMapping("/news")

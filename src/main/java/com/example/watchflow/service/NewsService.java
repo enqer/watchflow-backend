@@ -1,6 +1,7 @@
 package com.example.watchflow.service;
 
 
+import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.dto.NewsRequestDto;
 import com.example.watchflow.dto.NewsResponseDto;
 import com.example.watchflow.dto.mapper.NewsDtoMapper;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,5 +60,15 @@ public class NewsService {
 
     public News getNewsById(Long id) {
         return newsRepository.findById(id).get();
+    }
+
+    public List<NewsResponseDto> getLastestNews(int last) {
+        List<NewsResponseDto> news = new ArrayList<>(newsRepository
+                .findAll()
+                .stream()
+                .map(newsDtoMapper)
+                .toList());
+        Collections.reverse(news);
+        return news.stream().limit(last).toList();
     }
 }

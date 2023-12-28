@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 
@@ -28,6 +29,10 @@ public class News {
     private Long id;
     private String title;
     private LocalDate publishedAt;
+<<<<<<< Updated upstream
+=======
+    @Column(columnDefinition="TEXT", length = 1000)
+>>>>>>> Stashed changes
     private String content;
     private String image;
     @ManyToOne(
