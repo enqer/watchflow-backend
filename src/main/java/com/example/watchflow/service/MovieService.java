@@ -140,4 +140,15 @@ public class MovieService {
         Collections.reverse(movies);
         return movies.stream().limit(last).toList();
     }
+
+    public List<MovieDTO> getPopularMovies(int last) {
+        return movieRepository
+                .findAll()
+                .stream()
+                .map(movieRankDtoMapper)
+                .sorted((m1, m2) -> m2.numOfRatings().compareTo(m1.numOfRatings()))
+                .limit(last)
+                .map(m -> new MovieDTO(m.id(),m.title(),m.image(),m.genre(),m.rating()))
+                .toList();
+    }
 }
