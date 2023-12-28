@@ -1,6 +1,7 @@
 package com.example.watchflow.controller;
 
 import com.example.watchflow.dto.MovieDTO;
+import com.example.watchflow.dto.MovieRankDto;
 import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
@@ -31,6 +32,33 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public ResponseEntity<SingleMovieDTO> getMovieById(@PathVariable Long id){
         SingleMovieDTO m = service.getMovieById(id);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @GetMapping("/movies/ranking")
+    public ResponseEntity<List<MovieRankDto>> getMoviesByName(@RequestParam(required = false, defaultValue = "10") int first){
+        List<MovieRankDto> m = service.getMoviesRanking(first);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @GetMapping("/movies/lastest")
+    public ResponseEntity<List<MovieDTO>> getLastestMovies(@RequestParam(required = false, defaultValue = "3") int last){
+        List<MovieDTO> m = service.getLastestMovies(last);
+        if (m != null)
+            return ResponseEntity.status(HttpStatus.OK).body(m);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @GetMapping("/movies/popular")
+    public ResponseEntity<List<MovieDTO>> getPopularMovies(@RequestParam(required = false, defaultValue = "5") int last){
+        List<MovieDTO> m = service.getPopularMovies(last);
         if (m != null)
             return ResponseEntity.status(HttpStatus.OK).body(m);
         else

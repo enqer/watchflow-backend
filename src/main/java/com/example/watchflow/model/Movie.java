@@ -31,6 +31,7 @@ public class Movie {
     private Long id;
     private String title;
     private String image;
+    @Column(length = 512)
     private String content;
     private String genre;
     private String productionYear;
@@ -57,6 +58,14 @@ public class Movie {
             orphanRemoval = true
     )
     private List<Rating> ratings = new ArrayList<>();
+
+
+    @OneToMany(
+            mappedBy = "movie",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<MovieComment> comments = new ArrayList<>();
 
     public void addWatchers(User user){
         if (watchers == null) watchers = new HashSet<>();

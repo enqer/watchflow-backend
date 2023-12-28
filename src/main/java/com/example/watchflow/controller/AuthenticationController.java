@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
 
@@ -29,7 +30,8 @@ public class AuthenticationController {
         if (auth != null)
             return ResponseEntity.ok(auth);
         else
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already exists with this login or email");
+//            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }
 
     @PostMapping("/authenticate")

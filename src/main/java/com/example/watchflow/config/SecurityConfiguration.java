@@ -3,7 +3,9 @@ package com.example.watchflow.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,17 +27,29 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**")
-                        .permitAll()
+                       .requestMatchers(
+//                                "/api/**",
+                               "/swagger-ui/**",
+                               "/swagger-ui.html",
+                               "/swagger-resources/**",
+                               "/v3/api-docs/**")
+                                .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**")
+                                .permitAll()
+                        .requestMatchers(HttpMethod.GET)
+                                .permitAll()
+                        .requestMatchers(HttpMethod.POST)
+                                .permitAll()
+                        .requestMatchers(HttpMethod.DELETE)
+                                .permitAll()
+                        .requestMatchers(HttpMethod.PATCH)
+                                .permitAll()
+                        .requestMatchers(HttpMethod.PUT)
+                                .authenticated()
                         .anyRequest()
-                        .authenticated()
+                                .authenticated()
                 )
-//                .cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

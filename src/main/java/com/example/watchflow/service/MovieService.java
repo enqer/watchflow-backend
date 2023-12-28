@@ -2,20 +2,24 @@ package com.example.watchflow.service;
 
 
 import com.example.watchflow.dto.MovieDTO;
+import com.example.watchflow.dto.MovieRankDto;
 import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.dto.mapper.MovieDTOMapper;
+import com.example.watchflow.dto.mapper.MovieRankDtoMapper;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.model.Rating;
 import com.example.watchflow.model.User;
 import com.example.watchflow.repository.MovieRepository;
 import com.example.watchflow.repository.UserRepository;
+import com.example.watchflow.utils.Number;
+import com.example.watchflow.utils.Text;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -26,6 +30,9 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
     private final MovieDTOMapper movieDTOMapper;
+    private final MovieCommentService movieCommentService;
+    private final MovieRankDtoMapper movieRankDtoMapper;
+
 
     public List<MovieDTO> getMovies() {
         return movieRepository.findAll()
@@ -58,11 +65,13 @@ public class MovieService {
                 movie.getGenre(),
                 movie.getProductionYear(),
                 movie.getDirector(),
+                Number.round(
                 movie.getRatings()
                         .stream()
                         .map(Rating::getRate)
-                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),
-                movie.getRatings().size()
+                        .reduce(0, Integer::sum).doubleValue()/(movie.getRatings().isEmpty() ? 1 : movie.getRatings().size()),1),
+                movie.getRatings().size(),
+                movieCommentService.getCommentsByMovieId(movie.getId())
                 );
 
     }
@@ -105,32 +114,41 @@ public class MovieService {
         return movieRepository
                 .findAll()
                 .stream()
-                .filter(movie -> isSimilarTitle(movie.getTitle(), title))
+                .filter(movie -> Text.isSimilarTitle(movie.getTitle(), title))
                 .map(movieDTOMapper)
                 .toList();
     }
 
-    private boolean isSimilarTitle(String title, String searchedTitle) {
-        double probability = 0.3;
-        int lengthLongestSubtitle = calcLengthLongestSubtitle(title.toLowerCase(), searchedTitle.toLowerCase());
-        double similarity = (double) lengthLongestSubtitle / Math.max(title.length(), searchedTitle.length());
-        return similarity >= probability;
 
-    }
-    private int calcLengthLongestSubtitle(String title, String searchedTitle) {
-        int[][] similarity = new int[title.length() + 1][searchedTitle.length() + 1];
 
-        for (int i = 0; i <= title.length(); i++) {
-            for (int j = 0; j <= searchedTitle.length(); j++) {
-                if (i == 0 || j == 0) {
-                    similarity[i][j] = 0;
-                } else if (title.charAt(i - 1) == searchedTitle.charAt(j - 1)) {
-                    similarity[i][j] = similarity[i - 1][j - 1] + 1;
-                } else {
-                    similarity[i][j] = Math.max(similarity[i - 1][j], similarity[i][j - 1]);
-                }
-            }
-        }
-        return similarity[title.length()][searchedTitle.length()];
-        }
+    public List<MovieRankDto> getMoviesRanking(int first) {
+        return movieRepository
+                .findAll()
+                .stream()
+                .map(movieRankDtoMapper)
+                .sorted((m1, m2) -> m2.rating().compareTo(m1.rating()))
+                .limit(first)
+                .toList();
     }
+
+    public List<MovieDTO> getLastestMovies(int last) {
+        List<MovieDTO> movies = new ArrayList<>(movieRepository
+                .findAll()
+                .stream()
+                .map(movieDTOMapper)
+                .toList());
+        Collections.reverse(movies);
+        return movies.stream().limit(last).toList();
+    }
+
+    public List<MovieDTO> getPopularMovies(int last) {
+        return movieRepository
+                .findAll()
+                .stream()
+                .map(movieRankDtoMapper)
+                .sorted((m1, m2) -> m2.numOfRatings().compareTo(m1.numOfRatings()))
+                .limit(last)
+                .map(m -> new MovieDTO(m.id(),m.title(),m.image(),m.genre(),m.rating()))
+                .toList();
+    }
+}

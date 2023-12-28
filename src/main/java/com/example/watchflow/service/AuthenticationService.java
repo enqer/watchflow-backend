@@ -34,6 +34,9 @@ public class AuthenticationService {
 
 
     public AuthenticationRespone register(RegisterRequest request) throws ParseException {
+        if (!isLoginValid(request.getLogin()) || !isEmailValid(request.getEmail()))
+            return null;
+
         var user = User.builder()
                 .login(request.getLogin())
                 .email(request.getEmail())
@@ -47,6 +50,8 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+
 
     public AuthenticationRespone authenticate(AuthenticationRequest request) {
         manager.authenticate(
@@ -64,13 +69,14 @@ public class AuthenticationService {
     }
 
 
-//
-//    boolean  isLoginValid(String login){
-//        return !userRepository.isUserExists(login);
-//    }
-//    boolean isAccountNumberValid(String accountNumber){
-//        return !accountNumberRepository.existsByNumber(accountNumber);
-//    }
+
+    boolean  isLoginValid(String login){
+        return !userRepository.isUserExists(login);
+    }
+    private boolean isEmailValid(String email) {
+        return !userRepository.isUserExistsByEmail(email);
+    }
+
 
 
 }

@@ -54,6 +54,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .claim("userId",repository.findByLogin(userDetails.getUsername()).get().getId().toString())
+                .claim("login",repository.findByLogin(userDetails.getUsername()).get().getLogin())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

@@ -1,5 +1,6 @@
 package com.example.watchflow.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,33 +10,30 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "movie_comments")
+@Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Data
 @Builder
-public class News {
+public class MovieComment {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "news"
+            generator = "movie_comments"
     )
     @SequenceGenerator(
-            name = "news",
-            sequenceName = "news_sequence",
+            name = "movie_comments",
+            sequenceName = "movie_comments_sequence",
             allocationSize = 1
     )
     private Long id;
-    private String title;
-    private LocalDate publishedAt;
-    @Column(length = 512)
     private String content;
-    private String image;
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-            name = "author_id"
-    )
-    private Author author;
+    private LocalDate publishedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }
