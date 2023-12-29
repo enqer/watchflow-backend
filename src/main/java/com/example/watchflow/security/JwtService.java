@@ -2,6 +2,8 @@ package com.example.watchflow.security;
 
 
 
+import com.example.watchflow.model.Role;
+import com.example.watchflow.model.User;
 import com.example.watchflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,15 +51,19 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ){
+        User user = repository.findByLogin(userDetails.getUsername()).get();
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .claim("userId",repository.findByLogin(userDetails.getUsername()).get().getId().toString())
-                .claim("login",repository.findByLogin(userDetails.getUsername()).get().getLogin())
+                .claim("userId",user.getId().toString())
+                .claim("login",user.getLogin())
+                .claim("role",user.getRole())
+                .claim("isAdmin", user.getRole().equals(Role.ADMIN))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .setHeaderParam("typ", "JWT")
                 .compact();
     }
 
