@@ -28,7 +28,7 @@ public class News {
     private Long id;
     private String title;
     private LocalDate publishedAt;
-    @Column(length = 512)
+    @Column(columnDefinition = "text")
     private String content;
     private String image;
     @ManyToOne(

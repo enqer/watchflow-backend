@@ -31,7 +31,7 @@ public class Movie {
     private Long id;
     private String title;
     private String image;
-    @Column(length = 512)
+    @Column(columnDefinition = "text")
     private String content;
     private String genre;
     private String productionYear;
@@ -59,7 +59,7 @@ public class Movie {
     )
     private List<Rating> ratings = new ArrayList<>();
 
-
+    @JsonIgnore
     @OneToMany(
             mappedBy = "movie",
             cascade = CascadeType.ALL,

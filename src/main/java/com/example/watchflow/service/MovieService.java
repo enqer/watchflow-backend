@@ -3,6 +3,7 @@ package com.example.watchflow.service;
 
 import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.dto.MovieRankDto;
+import com.example.watchflow.dto.MovieResponseDto;
 import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.dto.mapper.MovieDTOMapper;
 import com.example.watchflow.dto.mapper.MovieRankDtoMapper;
@@ -41,16 +42,15 @@ public class MovieService {
                 .toList();
     }
 
-    public Movie addMovie(Movie movie) {
+    public Movie addMovie(MovieResponseDto movie) {
         var newMovie = Movie.builder()
-                .title(movie.getTitle())
-                .genre(movie.getGenre())
-                .content(movie.getContent())
-                .image(movie.getImage())
-                .director(movie.getDirector())
-                .productionYear(movie.getProductionYear())
+                .title(movie.title())
+                .genre(movie.genre())
+                .content(movie.content())
+                .image(movie.image())
+                .director(movie.director())
+                .productionYear(movie.productionYear())
                 .build();
-
         return movieRepository.save(newMovie);
     }
 

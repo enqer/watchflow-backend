@@ -2,6 +2,7 @@ package com.example.watchflow.controller;
 
 import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.dto.MovieRankDto;
+import com.example.watchflow.dto.MovieResponseDto;
 import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
@@ -93,7 +94,7 @@ public class MovieController {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie){
+    public ResponseEntity<Movie> addMovie(@RequestBody MovieResponseDto movie){
         Movie newMovie = service.addMovie(movie);
         if (newMovie != null)
             return ResponseEntity.status(HttpStatus.CREATED).body(newMovie);
