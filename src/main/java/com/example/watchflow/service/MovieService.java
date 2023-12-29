@@ -151,4 +151,9 @@ public class MovieService {
                 .map(m -> new MovieDTO(m.id(),m.title(),m.image(),m.genre(),m.rating()))
                 .toList();
     }
+
+    public void deleteMovie(Long id) {
+        Movie movie = movieRepository.findById(id).get();
+        movieRepository.delete(movie);
+    }
 }

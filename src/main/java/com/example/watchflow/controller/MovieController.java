@@ -113,4 +113,10 @@ public class MovieController {
         service.deleteWatcher(movieId, userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @DeleteMapping("/movies/{id}")
+    public ResponseEntity<?> deleteMovieComment(@PathVariable Long id){
+        service.deleteMovie(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

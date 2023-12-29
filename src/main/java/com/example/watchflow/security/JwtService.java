@@ -63,7 +63,7 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .setHeaderParam("typ", "JWT")
+                .setHeaderParam("type", "JWT")
                 .compact();
     }
 
