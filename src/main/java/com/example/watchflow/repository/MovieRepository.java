@@ -13,9 +13,12 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Object[]> findMovieWatchersByMovieId(Long movieId);
 
 
-    
+
     @Modifying
     @Query(value = "DELETE FROM movie_watchers WHERE movie_id = ?1 AND user_id = ?2", nativeQuery = true)
     void deleteMovieWatcherByUserId(Long movieId, Long userId);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM movie_watchers WHERE movie_id = ?1")
+    void deleteWatchersByMovieId(Long id);
 }

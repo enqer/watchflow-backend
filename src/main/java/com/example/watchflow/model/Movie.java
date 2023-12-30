@@ -72,6 +72,10 @@ public class Movie {
         watchers.add(user);
     }
 
+    public void deleteWatchers(User user){
+        watchers.remove(user);
+    }
+
 
 
 

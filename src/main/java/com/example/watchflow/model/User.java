@@ -40,6 +40,7 @@ public class User implements UserDetails {
 
     @ManyToMany(
             mappedBy = "watchers"
+
     )
     private Set<Movie> moviesWatched = new HashSet<>();
 

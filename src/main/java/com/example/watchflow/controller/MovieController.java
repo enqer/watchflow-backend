@@ -6,6 +6,7 @@ import com.example.watchflow.dto.MovieResponseDto;
 import com.example.watchflow.dto.SingleMovieDTO;
 import com.example.watchflow.model.Movie;
 import com.example.watchflow.service.MovieService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,6 +115,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Transactional
     @DeleteMapping("/movies/{id}")
     public ResponseEntity<?> deleteMovieComment(@PathVariable Long id){
         service.deleteMovie(id);

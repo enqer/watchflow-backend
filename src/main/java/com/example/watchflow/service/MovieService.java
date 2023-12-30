@@ -84,7 +84,6 @@ public class MovieService {
             m.addWatchers(user.get());
             movieRepository.save(m);
         }
-
     }
 
     public boolean isMovieWatcher(Long movieId, Long userId) {
@@ -154,6 +153,9 @@ public class MovieService {
 
     public void deleteMovie(Long id) {
         Movie movie = movieRepository.findById(id).get();
+        movieRepository.deleteWatchersByMovieId(id);
         movieRepository.delete(movie);
     }
 }
+
+
