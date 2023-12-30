@@ -56,4 +56,10 @@ public class NewsController {
         else
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found news's author");
     }
+
+    @DeleteMapping("/news/{id}")
+    public ResponseEntity<?> deleteNews(@PathVariable Long id){
+        service.deleteNews(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

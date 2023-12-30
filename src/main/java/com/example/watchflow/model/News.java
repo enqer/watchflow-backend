@@ -32,7 +32,10 @@ public class News {
     private String content;
     private String image;
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH
+            }
     )
     @JoinColumn(
             name = "author_id"

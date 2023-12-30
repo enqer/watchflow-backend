@@ -1,7 +1,6 @@
 package com.example.watchflow.service;
 
 
-import com.example.watchflow.dto.MovieDTO;
 import com.example.watchflow.dto.NewsRequestDto;
 import com.example.watchflow.dto.NewsResponseDto;
 import com.example.watchflow.dto.mapper.NewsDtoMapper;
@@ -70,5 +69,10 @@ public class NewsService {
                 .toList());
         Collections.reverse(news);
         return news.stream().limit(last).toList();
+    }
+
+    public void deleteNews(Long id) {
+        News news = newsRepository.findById(id).get();
+        newsRepository.delete(news);
     }
 }
