@@ -12,6 +12,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfiguration;
+
 
 @Configuration
 @EnableWebSecurity
@@ -25,16 +29,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                        .requestMatchers(
 //                                "/api/**",
+                               "/api/auth/**",
                                "/swagger-ui/**",
                                "/swagger-ui.html",
                                "/swagger-resources/**",
                                "/v3/api-docs/**")
-                                .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/**")
                                 .permitAll()
                         .requestMatchers(HttpMethod.GET)
                                 .permitAll()
@@ -49,12 +52,31 @@ public class SecurityConfiguration {
                         .anyRequest()
                                 .authenticated()
                 )
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider);
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOriginPattern("*"); // Użyj allowedOriginPattern zamiast allowedOrigins
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("OPTIONS");
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("POST");
+//        config.addAllowedMethod("PUT");
+//        config.addAllowedMethod("DELETE");
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", config);
+//
+//        return source;
+//    }
 }

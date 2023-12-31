@@ -65,6 +65,7 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .setHeaderParam("type", "JWT")
                 .compact();
+
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails){

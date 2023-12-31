@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -102,6 +103,7 @@ public class MovieController {
         else
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }
+
 
     @PostMapping("/movies/{movieId}/watchers/{userId}")
     public ResponseEntity<?> addWatcher(@PathVariable Long movieId, @PathVariable Long userId){
