@@ -3,7 +3,7 @@ package com.example.watchflow.utils;
 public class Text {
 
     public static boolean isSimilarTitle(String title, String searchedTitle) {
-        double probability = 0.3;
+        double probability = 0.5;
         int lengthLongestSubtitle = calcLengthLongestSubtitle(title.toLowerCase(), searchedTitle.toLowerCase());
         double similarity = (double) lengthLongestSubtitle / Math.max(title.length(), searchedTitle.length());
         return similarity >= probability;
