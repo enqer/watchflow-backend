@@ -1,5 +1,10 @@
 package com.example.watchflow.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +32,7 @@ public class News {
     )
     private Long id;
     private String title;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishedAt;
     @Column(columnDefinition = "text")
     private String content;

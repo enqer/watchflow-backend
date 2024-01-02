@@ -31,7 +31,7 @@ public class NewsController {
     }
 
     @GetMapping("/news/{id}")
-    public ResponseEntity<News> getNews(@PathVariable Long id){
+    public ResponseEntity<News> getNewsById(@PathVariable Long id){
         News news = service.getNewsById(id);
         if (news != null)
             return ResponseEntity.status(HttpStatus.OK).body(news);
