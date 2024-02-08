@@ -31,7 +31,6 @@ public class AuthenticationController {
             return ResponseEntity.ok(auth);
         else
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already exists with this login or email");
-//            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
     }
 
     @PostMapping("/authenticate")
