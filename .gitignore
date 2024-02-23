@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ## ENVY
-!**/src/main/resources/env.properties
+/src/main/resources/env.properties
